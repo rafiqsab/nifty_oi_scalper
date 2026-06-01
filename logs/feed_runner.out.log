@@ -1,0 +1,134 @@
+2026-05-27 15:27:01,418  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-05-27 15:27:01,418  INFO      __main__ — Kite session initialised.
+2026-05-27 15:27:01,654  INFO      __main__ — Kite session validated for RZY379
+2026-05-27 15:27:01,655  INFO      data.instrument_loader — Loading instruments from cache: data\instruments\nfo_instruments.csv
+2026-05-27 15:27:01,843  INFO      data.instrument_loader — Trading expiry: 2026-06-02
+2026-05-27 15:27:01,849  INFO      data.instrument_loader — Futures: NIFTY26JUNFUT  token=15956226
+2026-05-27 15:27:01,864  INFO      data.instrument_loader — Loaded 212 option tokens for 2026-06-02
+2026-05-27 15:27:01,897  INFO      data.trade_logger — Trade DB ready at data/trades.db
+2026-05-27 15:27:01,900  INFO      execution.order_executor — Position monitor started.
+2026-05-27 15:27:01,900  INFO      __main__ — System running. Streamlit reads data/option_chain_current.csv
+2026-05-27 15:27:02,087  INFO      core.feed_handler — WebSocket connected. Subscribing 213 tokens…
+Unhandled Error
+Traceback (most recent call last):
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 165, in _doReadOrWrite
+    why = getattr(selectable, method)()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 253, in doRead
+    return self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 258, in _dataReceived
+    rval = self.protocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 350, in dataReceived
+    self._flushReceiveBIO()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 316, in _flushReceiveBIO
+    ProtocolWrapper.dataReceived(self, bytes)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\policies.py", line 110, in dataReceived
+    self.wrappedProtocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 291, in dataReceived
+    self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1213, in _dataReceived
+    self.consumeData()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1225, in consumeData
+    while self.processData() and self.state != WebSocketProtocol.STATE_CLOSED:
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1591, in processData
+    fr = self.onFrameEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1713, in onFrameEnd
+    self._onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 319, in _onMessageEnd
+    self.onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 634, in onMessageEnd
+    self._onMessage(payload, self.message_is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 322, in _onMessage
+    self.onMessage(payload, isBinary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 70, in onMessage
+    self.factory.on_message(self, payload, is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 675, in _on_message
+    self.on_ticks(self, self._parse_binary(payload))
+  File "D:\nifty_oi_scalper\core\feed_handler.py", line 114, in _on_ticks
+    self.option_chain_logger.maybe_log(self.underlying_price)
+  File "D:\nifty_oi_scalper\data\option_chain_logger.py", line 78, in maybe_log
+    self._write_current(rows, current_path)
+  File "D:\nifty_oi_scalper\data\option_chain_logger.py", line 218, in _write_current
+    os.replace(temp_path, current_path)
+builtins.PermissionError: [WinError 32] The process cannot access the file because it is being used by another process: 'data\\option_chain_current_20260527_NIFTY50.tmp' -> 'data\\option_chain_current_20260527_NIFTY50.csv'
+
+2026-05-27 15:27:27,305  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-05-27 15:27:27,305  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-05-27 15:27:27,306  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-05-27 15:27:27,306  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-05-27 15:27:28,382  INFO      core.feed_handler — WebSocket connected. Subscribing 213 tokens…
+2026-06-01 10:28:19,524  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-06-01 10:28:19,729  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-06-01 10:28:19,758  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-06-01 10:28:19,759  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (peer dropped the TCP connection without previous WebSocket closing handshake)
+2026-06-01 10:28:28,570  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:28,592  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:28,592  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:28,594  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:31,453  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:31,453  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:31,453  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:31,455  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:38,068  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:38,070  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:38,070  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:38,070  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:49,492  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:49,492  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:49,492  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:28:49,494  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:29:14,660  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:29:14,676  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:29:14,676  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:29:14,676  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:30:25,251  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:30:25,255  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:30:25,255  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:30:25,255  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:31:17,855  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:31:17,855  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:31:17,855  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:31:17,855  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:32:18,282  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:32:18,295  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:32:18,298  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:32:18,299  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:33:27,949  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:33:27,952  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:33:27,952  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:33:27,952  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:34:27,754  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:34:27,757  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:34:27,757  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:34:27,758  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:35:40,860  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:35:40,860  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:35:40,860  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:35:40,862  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:36:51,133  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:36:51,133  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:36:51,133  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:36:51,133  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:37:57,108  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:37:57,108  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:37:57,109  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:37:57,109  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:38:54,074  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:38:54,074  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:38:54,074  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:38:54,074  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:39:40,599  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:39:40,599  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:39:40,599  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:39:40,599  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:40:50,474  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:40:50,474  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:40:50,477  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:40:50,477  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:41:47,953  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:41:47,953  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:41:47,953  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:41:47,962  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:42:48,850  ERROR     kiteconnect.ticker — Connection error: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:42:48,850  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:42:48,850  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 10:42:48,850  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
