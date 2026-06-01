@@ -260,3 +260,355 @@ builtins.PermissionError: [WinError 32] The process cannot access the file becau
 2026-06-01 11:14:47,985  ERROR     core.feed_handler — WebSocket error [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
 2026-06-01 11:14:47,985  ERROR     kiteconnect.ticker — Connection closed: 1006 - connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
 2026-06-01 11:14:47,985  WARNING   core.feed_handler — WebSocket closed [1006]: connection was closed uncleanly (WebSocket connection upgrade failed (403 - Forbidden))
+2026-06-01 12:43:36,943  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 12:43:36,943  INFO      __main__ — Kite session initialised.
+2026-06-01 12:43:37,108  INFO      __main__ — Kite session validated for RZY379
+2026-06-01 12:43:37,108  INFO      data.instrument_loader — Loading instruments from cache: data\instruments\nfo_instruments.csv
+2026-06-01 12:43:37,217  INFO      data.instrument_loader — Trading expiry: 2026-06-02
+2026-06-01 12:43:37,231  INFO      data.instrument_loader — Futures: NIFTY26JUNFUT  token=15956226
+2026-06-01 12:43:37,231  INFO      data.instrument_loader — Loaded 212 option tokens for 2026-06-02
+2026-06-01 12:43:37,257  INFO      data.trade_logger — Trade DB ready at data/trades.db
+2026-06-01 12:43:37,259  INFO      execution.order_executor — Position monitor started.
+2026-06-01 12:43:37,259  INFO      __main__ — System running. Streamlit reads data/option_chain_current.csv
+2026-06-01 12:43:37,440  INFO      core.feed_handler — WebSocket connected. Subscribing 213 tokens…
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 65-119: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 686, in run
+    self.mainLoop()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 697, in mainLoop
+    self.doIteration(t)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 159, in doSelect
+    _logrun(selectable, _drdw, selectable, method)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 97, in callWithLogger
+    return callWithContext({"system": lp}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 81, in callWithContext
+    return context.call({ILogContext: newCtx}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 116, in callWithContext
+    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 81, in callWithContext
+    return func(*args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 165, in _doReadOrWrite
+    why = getattr(selectable, method)()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 253, in doRead
+    return self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 258, in _dataReceived
+    rval = self.protocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 350, in dataReceived
+    self._flushReceiveBIO()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 316, in _flushReceiveBIO
+    ProtocolWrapper.dataReceived(self, bytes)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\policies.py", line 110, in dataReceived
+    self.wrappedProtocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 291, in dataReceived
+    self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1213, in _dataReceived
+    self.consumeData()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1225, in consumeData
+    while self.processData() and self.state != WebSocketProtocol.STATE_CLOSED:
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1591, in processData
+    fr = self.onFrameEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1713, in onFrameEnd
+    self._onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 319, in _onMessageEnd
+    self.onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 634, in onMessageEnd
+    self._onMessage(payload, self.message_is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 322, in _onMessage
+    self.onMessage(payload, isBinary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 70, in onMessage
+    self.factory.on_message(self, payload, is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 675, in _on_message
+    self.on_ticks(self, self._parse_binary(payload))
+  File "D:\nifty_oi_scalper\core\feed_handler.py", line 111, in _on_ticks
+    self.on_event(event)
+  File "D:\nifty_oi_scalper\main.py", line 112, in on_event
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 47, in handle_event
+    logger.info(
+Message: '\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  LONG_UNWIND           confidence=48%\n  Instrument : NIFTY PE 23500\n  Direction  : SELL\n  OI Change  : -1,547,195 contracts\n  Entry      : 105.65  SL=115.65  TGT=85.65\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 65-119: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 686, in run
+    self.mainLoop()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 697, in mainLoop
+    self.doIteration(t)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 159, in doSelect
+    _logrun(selectable, _drdw, selectable, method)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 97, in callWithLogger
+    return callWithContext({"system": lp}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 81, in callWithContext
+    return context.call({ILogContext: newCtx}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 116, in callWithContext
+    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 81, in callWithContext
+    return func(*args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 165, in _doReadOrWrite
+    why = getattr(selectable, method)()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 253, in doRead
+    return self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 258, in _dataReceived
+    rval = self.protocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 350, in dataReceived
+    self._flushReceiveBIO()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 316, in _flushReceiveBIO
+    ProtocolWrapper.dataReceived(self, bytes)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\policies.py", line 110, in dataReceived
+    self.wrappedProtocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 291, in dataReceived
+    self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1213, in _dataReceived
+    self.consumeData()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1225, in consumeData
+    while self.processData() and self.state != WebSocketProtocol.STATE_CLOSED:
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1591, in processData
+    fr = self.onFrameEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1713, in onFrameEnd
+    self._onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 319, in _onMessageEnd
+    self.onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 634, in onMessageEnd
+    self._onMessage(payload, self.message_is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 322, in _onMessage
+    self.onMessage(payload, isBinary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 70, in onMessage
+    self.factory.on_message(self, payload, is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 675, in _on_message
+    self.on_ticks(self, self._parse_binary(payload))
+  File "D:\nifty_oi_scalper\core\feed_handler.py", line 111, in _on_ticks
+    self.on_event(event)
+  File "D:\nifty_oi_scalper\main.py", line 112, in on_event
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 47, in handle_event
+    logger.info(
+Message: '\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  LONG_UNWIND           confidence=48%\n  Instrument : NIFTY PE 23500\n  Direction  : SELL\n  OI Change  : -1,547,195 contracts\n  Entry      : 105.65  SL=115.65  TGT=85.65\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550'
+Arguments: ()
+2026-06-01 13:12:12,392  INFO      execution.order_executor — [PAPER] SELL NIFTY2660223500PE qty=10 @ 105.65
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 65-119: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 686, in run
+    self.mainLoop()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 697, in mainLoop
+    self.doIteration(t)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 159, in doSelect
+    _logrun(selectable, _drdw, selectable, method)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 97, in callWithLogger
+    return callWithContext({"system": lp}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 81, in callWithContext
+    return context.call({ILogContext: newCtx}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 116, in callWithContext
+    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 81, in callWithContext
+    return func(*args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 165, in _doReadOrWrite
+    why = getattr(selectable, method)()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 253, in doRead
+    return self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 258, in _dataReceived
+    rval = self.protocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 350, in dataReceived
+    self._flushReceiveBIO()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 316, in _flushReceiveBIO
+    ProtocolWrapper.dataReceived(self, bytes)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\policies.py", line 110, in dataReceived
+    self.wrappedProtocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 291, in dataReceived
+    self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1213, in _dataReceived
+    self.consumeData()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1225, in consumeData
+    while self.processData() and self.state != WebSocketProtocol.STATE_CLOSED:
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1591, in processData
+    fr = self.onFrameEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1713, in onFrameEnd
+    self._onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 319, in _onMessageEnd
+    self.onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 634, in onMessageEnd
+    self._onMessage(payload, self.message_is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 322, in _onMessage
+    self.onMessage(payload, isBinary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 70, in onMessage
+    self.factory.on_message(self, payload, is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 675, in _on_message
+    self.on_ticks(self, self._parse_binary(payload))
+  File "D:\nifty_oi_scalper\core\feed_handler.py", line 111, in _on_ticks
+    self.on_event(event)
+  File "D:\nifty_oi_scalper\main.py", line 112, in on_event
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 47, in handle_event
+    logger.info(
+Message: '\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  SHORT_COVER           confidence=48%\n  Instrument : NIFTY PE 23500\n  Direction  : BUY\n  OI Change  : -1,547,195 contracts\n  Entry      : 107.65  SL=97.65  TGT=127.65\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 65-119: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 686, in run
+    self.mainLoop()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\base.py", line 697, in mainLoop
+    self.doIteration(t)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 159, in doSelect
+    _logrun(selectable, _drdw, selectable, method)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 97, in callWithLogger
+    return callWithContext({"system": lp}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\log.py", line 81, in callWithContext
+    return context.call({ILogContext: newCtx}, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 116, in callWithContext
+    return self.currentContext().callWithContext(ctx, func, *args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\python\context.py", line 81, in callWithContext
+    return func(*args, **kw)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\selectreactor.py", line 165, in _doReadOrWrite
+    why = getattr(selectable, method)()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 253, in doRead
+    return self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\internet\tcp.py", line 258, in _dataReceived
+    rval = self.protocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 350, in dataReceived
+    self._flushReceiveBIO()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\tls.py", line 316, in _flushReceiveBIO
+    ProtocolWrapper.dataReceived(self, bytes)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\twisted\protocols\policies.py", line 110, in dataReceived
+    self.wrappedProtocol.dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 291, in dataReceived
+    self._dataReceived(data)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1213, in _dataReceived
+    self.consumeData()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1225, in consumeData
+    while self.processData() and self.state != WebSocketProtocol.STATE_CLOSED:
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1591, in processData
+    fr = self.onFrameEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 1713, in onFrameEnd
+    self._onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 319, in _onMessageEnd
+    self.onMessageEnd()
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\websocket\protocol.py", line 634, in onMessageEnd
+    self._onMessage(payload, self.message_is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\autobahn\twisted\websocket.py", line 322, in _onMessage
+    self.onMessage(payload, isBinary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 70, in onMessage
+    self.factory.on_message(self, payload, is_binary)
+  File "D:\nifty_oi_scalper\.venv\Lib\site-packages\kiteconnect\ticker.py", line 675, in _on_message
+    self.on_ticks(self, self._parse_binary(payload))
+  File "D:\nifty_oi_scalper\core\feed_handler.py", line 111, in _on_ticks
+    self.on_event(event)
+  File "D:\nifty_oi_scalper\main.py", line 112, in on_event
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 47, in handle_event
+    logger.info(
+Message: '\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n  SHORT_COVER           confidence=48%\n  Instrument : NIFTY PE 23500\n  Direction  : BUY\n  OI Change  : -1,547,195 contracts\n  Entry      : 107.65  SL=97.65  TGT=127.65\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550'
+Arguments: ()
+2026-06-01 13:12:13,202  INFO      execution.order_executor — [PAPER] BUY NIFTY2660223500PE qty=10 @ 107.65
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u274c' in position 63: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 122, in _monitor_loop
+    self._check_exit(trade)
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 142, in _check_exit
+    self.exit_trade(trade, "HIT_SL")
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 81, in exit_trade
+    self.strategy.close_trade(trade, exit_price, reason)
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 74, in close_trade
+    logger.info(
+Message: '\u274c HIT_SL          NIFTY PE 23500            PnL=\u20b9-104  DailyPnL=\u20b9-104'
+Arguments: ()
+--- Logging error ---
+Traceback (most recent call last):
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\logging\__init__.py", line 1113, in emit
+    stream.write(msg + self.terminator)
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u274c' in position 63: character maps to <undefined>
+Call stack:
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 995, in _bootstrap
+    self._bootstrap_inner()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 1038, in _bootstrap_inner
+    self.run()
+  File "C:\Users\HP\AppData\Local\Programs\Python\Python311\Lib\threading.py", line 975, in run
+    self._target(*self._args, **self._kwargs)
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 122, in _monitor_loop
+    self._check_exit(trade)
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 142, in _check_exit
+    self.exit_trade(trade, "HIT_SL")
+  File "D:\nifty_oi_scalper\execution\order_executor.py", line 81, in exit_trade
+    self.strategy.close_trade(trade, exit_price, reason)
+  File "D:\nifty_oi_scalper\strategies\scalp_strategy.py", line 74, in close_trade
+    logger.info(
+Message: '\u274c HIT_SL          NIFTY PE 23500            PnL=\u20b9-104  DailyPnL=\u20b9-104'
+Arguments: ()
+2026-06-01 13:19:39,000  INFO      execution.order_executor — [PAPER EXIT] HIT_SL — NIFTY2660223500PE @ 97.30
+2026-06-01 13:25:02,660  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:25:02,660  INFO      __main__ — Kite session initialised.
+Kite session validation failed. Enter a fresh access token in the Streamlit UI and click Connect again.
+Original error: Incorrect `api_key` or `access_token`.
+2026-06-01 13:25:18,293  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:25:18,293  INFO      __main__ — Kite session initialised.
+Kite session validation failed. Enter a fresh access token in the Streamlit UI and click Connect again.
+Original error: Incorrect `api_key` or `access_token`.
+2026-06-01 13:27:46,855  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:27:46,855  INFO      __main__ — Kite session initialised.
+Kite session validation failed. Enter a fresh access token in the Streamlit UI and click Connect again.
+Original error: Incorrect `api_key` or `access_token`.
+2026-06-01 13:31:38,413  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:31:38,413  INFO      __main__ — Kite session initialised.
+Kite session validation failed. Enter a fresh access token in the Streamlit UI and click Connect again.
+Original error: Incorrect `api_key` or `access_token`.

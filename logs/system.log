@@ -6820,3 +6820,25 @@
 2026-06-01 12:43:37,440  INFO      core.feed_handler — WebSocket connected. Subscribing 213 tokens…
 2026-06-01 12:54:58,787  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
 2026-06-01 12:54:58,787  INFO      __main__ — Kite session initialised.
+2026-06-01 13:12:12,392  INFO      execution.order_executor — [PAPER] SELL NIFTY2660223500PE qty=10 @ 105.65
+2026-06-01 13:12:13,202  INFO      execution.order_executor — [PAPER] BUY NIFTY2660223500PE qty=10 @ 107.65
+2026-06-01 13:19:39,000  INFO      execution.order_executor — [PAPER EXIT] HIT_SL — NIFTY2660223500PE @ 97.30
+2026-06-01 13:25:02,660  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:25:02,660  INFO      __main__ — Kite session initialised.
+2026-06-01 13:25:18,293  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:25:18,293  INFO      __main__ — Kite session initialised.
+2026-06-01 13:27:46,855  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:27:46,855  INFO      __main__ — Kite session initialised.
+2026-06-01 13:31:38,413  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:31:38,413  INFO      __main__ — Kite session initialised.
+2026-06-01 13:36:50,325  INFO      __main__ — Starting Nifty50 OI Scalper  [mode=PAPER, underlying=NIFTY, exchange=NFO]
+2026-06-01 13:36:50,325  INFO      __main__ — Kite session initialised.
+2026-06-01 13:36:50,553  INFO      __main__ — Kite session validated for RZY379
+2026-06-01 13:36:50,557  INFO      data.instrument_loader — Loading instruments from cache: data\instruments\nfo_instruments.csv
+2026-06-01 13:36:50,694  INFO      data.instrument_loader — Trading expiry: 2026-06-02
+2026-06-01 13:36:50,699  INFO      data.instrument_loader — Futures: NIFTY26JUNFUT  token=15956226
+2026-06-01 13:36:50,710  INFO      data.instrument_loader — Loaded 212 option tokens for 2026-06-02
+2026-06-01 13:36:50,737  INFO      data.trade_logger — Trade DB ready at data/trades.db
+2026-06-01 13:36:50,740  INFO      execution.order_executor — Position monitor started.
+2026-06-01 13:36:50,740  INFO      __main__ — System running. Streamlit reads data/option_chain_current.csv
+2026-06-01 13:36:50,937  INFO      core.feed_handler — WebSocket connected. Subscribing 213 tokens…

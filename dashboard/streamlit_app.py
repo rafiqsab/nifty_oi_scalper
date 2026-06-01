@@ -1,7 +1,7 @@
 """
 Streamlit UI for the NIFTY OI Scalper.
 
-Run the UI, then enter today's Kite access token and click Connect:
+Run the UI, then enter today's Kite token and click Connect:
 
     streamlit run dashboard/streamlit_app.py
 """
@@ -49,7 +49,7 @@ OPTION_CHAIN_LOG_INTERVAL = getattr(settings, "OPTION_CHAIN_LOG_INTERVAL", 30.0)
 RUNTIME_SETTINGS_SETTING = getattr(settings, "RUNTIME_SETTINGS_PATH", "data/runtime_settings.json")
 RUNTIME_SETTINGS_PATH = ROOT_DIR / RUNTIME_SETTINGS_SETTING
 
-FEED_PID_PATH = ROOT_DIR / "data" / "feed_runner.pid"
+FEED_PID_PATH = Path(settings.DATA_DIR) / "feed_runner.pid"
 
 
 def dated_csv_path(path_setting: str, index_name: str) -> Path:
@@ -300,7 +300,7 @@ def render_sidebar() -> str:
     elif auto_refresh:
         st.sidebar.warning("Install streamlit-autorefresh for timed refreshes.")
 
-    if st.sidebar.button("Refresh now", use_container_width=True):
+    if st.sidebar.button("Refresh now", width="stretch"):
         st.cache_data.clear()
         st.rerun()
 
@@ -359,37 +359,42 @@ def render_kite_connection_controls() -> None:
 
     if settings.API_KEY:
         login_url = KiteConnect(api_key=settings.API_KEY).login_url()
-        st.sidebar.link_button("Open Kite login", login_url, use_container_width=True)
+        st.sidebar.link_button("Open Kite login", login_url, width="stretch")
     else:
         st.sidebar.warning("Set KITE_API_KEY in .env to generate the login link.")
 
-    access_token = st.sidebar.text_input(
-        "Kite access token",
+    kite_token = st.sidebar.text_input(
+        "Kite token",
         type="password",
-        placeholder="Paste today's access token",
+        placeholder="Paste request_token or access_token",
     )
+    st.sidebar.caption("After Kite login, paste the request_token from the redirect URL.")
 
     col1, col2 = st.sidebar.columns(2)
     col1.caption("Token is used only for this connection.")
-    if col2.button("Connect", use_container_width=True):
-        start_tick_receiver(access_token)
+    if col2.button("Connect", width="stretch"):
+        start_tick_receiver(kite_token)
 
 
-def start_tick_receiver(access_token: str) -> None:
-    token = access_token.strip()
+def start_tick_receiver(kite_token: str) -> None:
+    token = kite_token.strip()
     if not token:
-        st.sidebar.error("Enter a Kite access token first.")
+        st.sidebar.error("Enter the Kite request token or access token first.")
         return
 
     if is_feed_runner_active():
         st.sidebar.info("Tick receiver is already running.")
         return
 
+    access_token = resolve_access_token(token)
+    if not access_token:
+        return
+
     FEED_PID_PATH.parent.mkdir(parents=True, exist_ok=True)
     LOG_DIR.mkdir(parents=True, exist_ok=True)
     child_env = os.environ.copy()
     child_env["SCALPER_UI_CONNECT"] = "1"
-    child_env["SCALPER_UI_ACCESS_TOKEN"] = token
+    child_env["SCALPER_UI_ACCESS_TOKEN"] = access_token
     with (LOG_DIR / "feed_runner.out.log").open("a") as stdout:
         process = subprocess.Popen(
             [sys.executable, "main.py"],
@@ -404,6 +409,30 @@ def start_tick_receiver(access_token: str) -> None:
     st.sidebar.success(f"Tick receiver started. PID {process.pid}.")
 
 
+def resolve_access_token(token: str) -> str:
+    kite = KiteConnect(api_key=settings.API_KEY)
+    kite.set_access_token(token)
+    try:
+        kite.profile()
+        return token
+    except Exception:
+        pass
+
+    if not settings.API_SECRET:
+        st.sidebar.error("Set KITE_API_SECRET before using a request token.")
+        return ""
+
+    try:
+        session = kite.generate_session(token, api_secret=settings.API_SECRET)
+        access_token = str(session["access_token"])
+        kite.set_access_token(access_token)
+        kite.profile()
+        return access_token
+    except Exception as exc:
+        st.sidebar.error(f"Kite token validation failed: {exc}")
+        return ""
+
+
 def is_feed_runner_active() -> bool:
     if not FEED_PID_PATH.exists():
         return False
@@ -411,11 +440,13 @@ def is_feed_runner_active() -> bool:
     try:
         pid = int(FEED_PID_PATH.read_text().strip())
     except (OSError, ValueError):
+        FEED_PID_PATH.unlink(missing_ok=True)
         return False
 
     try:
         os.kill(pid, 0)
     except OSError:
+        FEED_PID_PATH.unlink(missing_ok=True)
         return False
 
     return True
@@ -455,7 +486,7 @@ def render_chain(chain: pd.DataFrame, current_path: Path, history_path: Path) ->
 
     table = build_tick_display(chain)
     styled = style_tick_display(table, underlying=underlying, atm=atm)
-    st.dataframe(styled, use_container_width=True, hide_index=True)
+    st.dataframe(styled, width="stretch", hide_index=True)
 
     with st.expander("CSV files"):
         st.write(f"Latest snapshot: `{current_path}`")
@@ -472,7 +503,7 @@ def render_chain(chain: pd.DataFrame, current_path: Path, history_path: Path) ->
 def render_trades(trades: pd.DataFrame) -> None:
     st.subheader("Trades")
     if trades.empty:
-        st.dataframe(pd.DataFrame(), use_container_width=True)
+        st.dataframe(pd.DataFrame(), width="stretch")
         return
 
     daily_pnl = float(pd.to_numeric(trades["pnl"], errors="coerce").fillna(0).sum())
@@ -481,7 +512,7 @@ def render_trades(trades: pd.DataFrame) -> None:
     col1.metric("Daily PnL", f"Rs {daily_pnl:,.0f}")
     col2.metric("Open Trades", open_count)
     col3.metric("Signals Logged", len(trades))
-    st.dataframe(trades, use_container_width=True, hide_index=True)
+    st.dataframe(trades, width="stretch", hide_index=True)
 
 
 def render_logs() -> None:
@@ -495,15 +526,15 @@ def render_config() -> None:
         [
             ("Trade mode", settings.TRADE_MODE),
             ("OI threshold", f"{settings.OI_THRESHOLD:,}"),
-            ("Tick window", settings.TICK_WINDOW),
-            ("Max concurrent scalps", settings.MAX_CONCURRENT_SCALPS),
+            ("Tick window", str(settings.TICK_WINDOW)),
+            ("Max concurrent scalps", str(settings.MAX_CONCURRENT_SCALPS)),
             ("Daily loss limit", f"Rs {settings.DAILY_LOSS_LIMIT:,.0f}"),
             ("Minimum confidence", f"{settings.MIN_CONFIDENCE:.0%}"),
             ("Option-chain log interval", f"{OPTION_CHAIN_LOG_INTERVAL:.1f}s"),
         ],
         columns=["Setting", "Value"],
     )
-    st.dataframe(config, use_container_width=True, hide_index=True)
+    st.dataframe(config, width="stretch", hide_index=True)
 
 
 def main() -> None:
