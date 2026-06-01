@@ -125,3 +125,4 @@ nifty_oi_scalper/
 | `MAX_CONCURRENT_SCALPS` | 2 | Max open positions at once |
 | `DAILY_LOSS_LIMIT` | 3000 | Stop trading if daily PnL < -₹3000 |
 | `LOT_SIZE` | 25 | Nifty lot size (verify current value) |
+"# nifty_oi_scalper" 
