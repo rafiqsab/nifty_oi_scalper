@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: nifty-oi-scalper
+    runtime: python
+    plan: starter
+    region: singapore
+    buildCommand: make install
+    startCommand: make render
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: KITE_API_KEY
+        sync: false
+      - key: KITE_API_SECRET
+        sync: false
+      - key: TRADE_MODE
+        value: PAPER
+      - key: OPTION_CHAIN_LOG_INTERVAL
+        value: "30"
+      - key: DATA_DIR
+        value: /var/data
+      - key: LOG_DIR
+        value: /var/data/logs
+    disk:
+      name: scalper-data
+      mountPath: /var/data
+      sizeGB: 1

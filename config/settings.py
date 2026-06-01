@@ -44,13 +44,26 @@ class Settings:
     MARKET_CLOSE:       str    = "15:00"
 
     # --- Paths ---
-    LOG_DIR:            str    = "logs"
-    DB_PATH:            str    = "data/trades.db"
-    INSTRUMENTS_CACHE:  str    = "data/instruments/nfo_instruments.csv"
-    OPTION_CHAIN_CURRENT: str  = "data/option_chain_current.csv"
-    OPTION_CHAIN_HISTORY: str  = "data/option_chain_history.csv"
+    DATA_DIR:           str    = os.getenv("DATA_DIR", "data")
+    LOG_DIR:            str    = os.getenv("LOG_DIR", "logs")
+    DB_PATH:            str    = os.getenv("DB_PATH", f"{DATA_DIR}/trades.db")
+    INSTRUMENTS_CACHE:  str    = os.getenv(
+        "INSTRUMENTS_CACHE",
+        f"{DATA_DIR}/instruments/nfo_instruments.csv",
+    )
+    OPTION_CHAIN_CURRENT: str  = os.getenv(
+        "OPTION_CHAIN_CURRENT",
+        f"{DATA_DIR}/option_chain_current.csv",
+    )
+    OPTION_CHAIN_HISTORY: str  = os.getenv(
+        "OPTION_CHAIN_HISTORY",
+        f"{DATA_DIR}/option_chain_history.csv",
+    )
     OPTION_CHAIN_LOG_INTERVAL: float = float(os.getenv("OPTION_CHAIN_LOG_INTERVAL", 30))
-    RUNTIME_SETTINGS_PATH: str = "data/runtime_settings.json"
+    RUNTIME_SETTINGS_PATH: str = os.getenv(
+        "RUNTIME_SETTINGS_PATH",
+        f"{DATA_DIR}/runtime_settings.json",
+    )
 
 
 settings = Settings()

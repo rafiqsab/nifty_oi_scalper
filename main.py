@@ -3,8 +3,7 @@ main.py
 Entry point — wires all components together and starts the system.
 
 Usage:
-    python auth.py        # run once every morning
-    python main.py        # start the trading system
+    Start the receiver from the Streamlit UI after entering today's access token.
 """
 import logging
 import os
@@ -17,13 +16,14 @@ from kiteconnect import KiteConnect
 load_dotenv()
 
 # ── configure logging ──────────────────────────────────────────────────
-os.makedirs("logs", exist_ok=True)
+LOG_DIR = os.getenv("LOG_DIR", "logs")
+os.makedirs(LOG_DIR, exist_ok=True)
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
     handlers=[
         logging.StreamHandler(sys.stdout),
-        logging.FileHandler(f"logs/system.log"),
+        logging.FileHandler(os.path.join(LOG_DIR, "system.log")),
     ],
 )
 logger = logging.getLogger(__name__)
@@ -47,8 +47,8 @@ def validate_kite_session(kite: KiteConnect) -> None:
         profile = kite.profile()
     except Exception as exc:
         raise SystemExit(
-            "Kite session validation failed. Run `python auth.py` to generate "
-            "a fresh KITE_ACCESS_TOKEN, then start `python main.py` again.\n"
+            "Kite session validation failed. Enter a fresh access token in "
+            "the Streamlit UI and click Connect again.\n"
             f"Original error: {exc}"
         ) from exc
 
@@ -59,6 +59,16 @@ def validate_kite_session(kite: KiteConnect) -> None:
 
 
 def main():
+    if os.getenv("SCALPER_UI_CONNECT") != "1":
+        raise SystemExit(
+            "Backend startup is UI-controlled. Open the Streamlit UI, enter "
+            "today's Kite access token, and click Connect."
+        )
+
+    access_token = os.getenv("SCALPER_UI_ACCESS_TOKEN", "").strip()
+    if not access_token:
+        raise SystemExit("No Kite access token was provided by the Streamlit UI.")
+
     index_name = runtime_index_name()
     logger.info(
         "Starting %s OI Scalper  [mode=%s, underlying=%s, exchange=%s]",
@@ -70,7 +80,7 @@ def main():
 
     # --- Kite session ---
     kite = KiteConnect(api_key=settings.API_KEY)
-    kite.set_access_token(settings.ACCESS_TOKEN)
+    kite.set_access_token(access_token)
     logger.info("Kite session initialised.")
     validate_kite_session(kite)
 
@@ -114,7 +124,7 @@ def main():
     # ── feed handler (WebSocket) ──────────────────────────────────────
     feed = FeedHandler(
         api_key      = settings.API_KEY,
-        access_token = settings.ACCESS_TOKEN,
+        access_token = access_token,
         token_map    = token_map,
         key_map      = key_map,
         fut_token    = fut_token,

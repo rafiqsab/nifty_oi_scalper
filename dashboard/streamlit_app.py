@@ -1,9 +1,8 @@
 """
 Streamlit UI for the NIFTY OI Scalper.
 
-Run the trading engine and UI in separate terminals:
+Run the UI, then enter today's Kite access token and click Connect:
 
-    python main.py
     streamlit run dashboard/streamlit_app.py
 """
 from __future__ import annotations
@@ -16,9 +15,12 @@ import sys
 from datetime import datetime
 from pathlib import Path
 
+ROOT_DIR = Path(__file__).resolve().parents[1]
+if str(ROOT_DIR) not in sys.path:
+    sys.path.insert(0, str(ROOT_DIR))
+
 import pandas as pd
 import streamlit as st
-from dotenv import set_key
 from kiteconnect import KiteConnect
 
 try:
@@ -30,7 +32,6 @@ from config.runtime import DEFAULT_INDEX_NAME, INDEX_OPTIONS
 from config.settings import settings
 
 
-ROOT_DIR = Path(__file__).resolve().parents[1]
 DB_PATH = ROOT_DIR / settings.DB_PATH
 LOG_DIR = ROOT_DIR / settings.LOG_DIR
 SYSTEM_LOG_PATH = LOG_DIR / "system.log"
@@ -48,7 +49,6 @@ OPTION_CHAIN_LOG_INTERVAL = getattr(settings, "OPTION_CHAIN_LOG_INTERVAL", 30.0)
 RUNTIME_SETTINGS_SETTING = getattr(settings, "RUNTIME_SETTINGS_PATH", "data/runtime_settings.json")
 RUNTIME_SETTINGS_PATH = ROOT_DIR / RUNTIME_SETTINGS_SETTING
 
-ENV_PATH = ROOT_DIR / ".env"
 FEED_PID_PATH = ROOT_DIR / "data" / "feed_runner.pid"
 
 
@@ -370,40 +370,31 @@ def render_kite_connection_controls() -> None:
     )
 
     col1, col2 = st.sidebar.columns(2)
-    if col1.button("Save token", use_container_width=True):
-        save_access_token(access_token)
-
+    col1.caption("Token is used only for this connection.")
     if col2.button("Connect", use_container_width=True):
-        if save_access_token(access_token):
-            start_tick_receiver()
+        start_tick_receiver(access_token)
 
 
-def save_access_token(access_token: str) -> bool:
+def start_tick_receiver(access_token: str) -> None:
     token = access_token.strip()
     if not token:
         st.sidebar.error("Enter a Kite access token first.")
-        return False
+        return
 
-    try:
-        set_key(str(ENV_PATH), "KITE_ACCESS_TOKEN", token)
-    except OSError as exc:
-        st.sidebar.error(f"Could not save token: {exc}")
-        return False
-
-    st.sidebar.success("Access token saved.")
-    return True
-
-
-def start_tick_receiver() -> None:
     if is_feed_runner_active():
         st.sidebar.info("Tick receiver is already running.")
         return
 
     FEED_PID_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with (ROOT_DIR / "logs" / "feed_runner.out.log").open("a") as stdout:
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    child_env = os.environ.copy()
+    child_env["SCALPER_UI_CONNECT"] = "1"
+    child_env["SCALPER_UI_ACCESS_TOKEN"] = token
+    with (LOG_DIR / "feed_runner.out.log").open("a") as stdout:
         process = subprocess.Popen(
             [sys.executable, "main.py"],
             cwd=str(ROOT_DIR),
+            env=child_env,
             stdout=stdout,
             stderr=subprocess.STDOUT,
             creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0,
@@ -436,7 +427,8 @@ def render_chain(chain: pd.DataFrame, current_path: Path, history_path: Path) ->
 
     if chain.empty:
         st.info(
-            "No option-chain snapshot found yet. Start `python main.py`; "
+            "No option-chain snapshot found yet. Enter today's Kite access "
+            "token in the sidebar and click Connect; "
             f"it will write `{current_path.relative_to(ROOT_DIR)}`."
         )
         return

@@ -43,12 +43,13 @@ python auth.py
 
 ---
 
-## Run
+## Backend
 
 ```bash
-python main.py
+streamlit run dashboard/streamlit_app.py
 ```
 
+- Start the receiver from the Streamlit sidebar after entering today's token.
 - Starts in **PAPER** mode by default (set `TRADE_MODE=LIVE` in `.env` when ready)
 - Trades logged to `data/trades.db` and `logs/trades_YYYYMMDD.csv`
 - Option-chain snapshots are logged to `data/option_chain_current.csv` and
@@ -56,16 +57,50 @@ python main.py
 
 ## Streamlit UI
 
-Run the trading engine and the UI in separate terminals:
+Run the UI:
 
 ```bash
-python main.py
 streamlit run dashboard/streamlit_app.py
 ```
 
-The Streamlit app reads local CSV, SQLite, and log files, so it can monitor
-all CE/PE strikes, OI, volume changes, trades, config, and logs without placing
-orders itself.
+Enter today's Kite access token in the sidebar and click **Connect**. The UI
+starts the WebSocket receiver. The backend does not connect when started
+directly.
+
+---
+
+## Make commands
+
+```bash
+make install    # install dependencies
+make auth       # generate the daily Kite access token locally
+make ui         # start Streamlit locally on port 8501
+make test       # run tests
+make render     # start Streamlit using Render's PORT
+```
+
+The Streamlit sidebar can save today's Kite access token and start the tick
+receiver with the selected index and tick frequency.
+
+---
+
+## Deploy to Render
+
+The repository includes `render.yaml`. Create a Render Blueprint from the
+repository, then provide `KITE_API_KEY` and `KITE_API_SECRET` when prompted.
+The service starts in `PAPER` mode.
+
+After deployment:
+
+1. Open the Streamlit URL.
+2. Select the index and tick frequency.
+3. Open the Kite login link.
+4. Paste today's Kite access token.
+5. Click **Connect** to start receiving ticks.
+
+The Blueprint attaches a persistent disk at `/var/data`. Daily CSVs, SQLite
+trades, runtime settings, instrument caches, and logs survive redeploys and
+service restarts.
 
 ---
 
