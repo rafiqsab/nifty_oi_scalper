@@ -5,12 +5,14 @@ Feeds ticks into OIStore and OIVelocityTracker.
 Calls a user-supplied callback when an OIEvent fires.
 """
 import logging
+import time
 from datetime import datetime
 from typing import Callable
 
 from kiteconnect import KiteTicker
 
 from config.runtime import runtime_underlying
+from core.feed_status import write_feed_status
 from core.models import OIEvent, OISnapshot
 from core.oi_store import OIStore
 from core.oi_velocity_tracker import OIVelocityTracker
@@ -39,6 +41,8 @@ class FeedHandler:
         self.on_event     = on_event
         self.option_chain_logger = option_chain_logger
         self.underlying = runtime_underlying()
+        self.tick_batches = 0
+        self._last_status_write = 0.0
 
         # shared ltp dict for position monitor
         self.ltp_cache: dict[str, float] = {}
@@ -61,8 +65,18 @@ class FeedHandler:
         logger.info(f"WebSocket connected. Subscribing {len(all_tokens)} tokens…")
         ws.subscribe(all_tokens)
         ws.set_mode(ws.MODE_FULL, all_tokens)   # FULL mode gives OI
+        write_feed_status("connected", subscribed_tokens=len(all_tokens))
 
     def _on_ticks(self, ws, ticks: list):
+        self.tick_batches += 1
+        now = time.monotonic()
+        if now - self._last_status_write >= 1:
+            write_feed_status(
+                "receiving_ticks",
+                tick_batches=self.tick_batches,
+                latest_batch_size=len(ticks),
+            )
+            self._last_status_write = now
         for tick in ticks:
             token = tick.get("instrument_token")
             ltp   = tick.get("last_price", 0.0)
@@ -115,9 +129,11 @@ class FeedHandler:
 
     def _on_close(self, ws, code, reason):
         logger.warning(f"WebSocket closed [{code}]: {reason}")
+        write_feed_status("closed", code=code, reason=str(reason))
 
     def _on_error(self, ws, code, reason):
         logger.error(f"WebSocket error [{code}]: {reason}")
+        write_feed_status("error", code=code, reason=str(reason))
 
     # ------------------------------------------------------------------
     # Lifecycle

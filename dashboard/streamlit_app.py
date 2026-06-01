@@ -50,6 +50,8 @@ RUNTIME_SETTINGS_SETTING = getattr(settings, "RUNTIME_SETTINGS_PATH", "data/runt
 RUNTIME_SETTINGS_PATH = ROOT_DIR / RUNTIME_SETTINGS_SETTING
 
 FEED_PID_PATH = Path(settings.DATA_DIR) / "feed_runner.pid"
+FEED_STATUS_PATH = Path(settings.DATA_DIR) / "feed_status.json"
+FEED_RUNNER_LOG_PATH = LOG_DIR / "feed_runner.out.log"
 
 
 def dated_csv_path(path_setting: str, index_name: str) -> Path:
@@ -57,6 +59,14 @@ def dated_csv_path(path_setting: str, index_name: str) -> Path:
     date_suffix = datetime.now().strftime("%Y%m%d")
     index_suffix = index_name.upper().replace(" ", "")
     return base_path.with_name(f"{base_path.stem}_{date_suffix}_{index_suffix}{base_path.suffix}")
+
+
+def display_path(path: Path) -> str:
+    try:
+        return str(path.relative_to(ROOT_DIR))
+    except ValueError:
+        return str(path)
+
 
 FREQUENCY_OPTIONS = {
     "1 sec": 1,
@@ -310,11 +320,12 @@ def render_sidebar() -> str:
     history_path = dated_csv_path(OPTION_CHAIN_HISTORY_SETTING, index_name)
     st.sidebar.write(f"Mode: **{settings.TRADE_MODE}**")
     st.sidebar.write(f"Index: **{index_name}**")
-    st.sidebar.write(f"Current CSV: `{current_path.relative_to(ROOT_DIR)}`")
-    st.sidebar.write(f"History CSV: `{history_path.relative_to(ROOT_DIR)}`")
+    st.sidebar.write(f"Current CSV: `{display_path(current_path)}`")
+    st.sidebar.write(f"History CSV: `{display_path(history_path)}`")
     st.sidebar.write(f"Runtime settings: `{RUNTIME_SETTINGS_SETTING}`")
 
     render_kite_connection_controls()
+    render_feed_status()
     return index_name
 
 
@@ -395,7 +406,7 @@ def start_tick_receiver(kite_token: str) -> None:
     child_env = os.environ.copy()
     child_env["SCALPER_UI_CONNECT"] = "1"
     child_env["SCALPER_UI_ACCESS_TOKEN"] = access_token
-    with (LOG_DIR / "feed_runner.out.log").open("a") as stdout:
+    with FEED_RUNNER_LOG_PATH.open("a") as stdout:
         process = subprocess.Popen(
             [sys.executable, "main.py"],
             cwd=str(ROOT_DIR),
@@ -452,6 +463,30 @@ def is_feed_runner_active() -> bool:
     return True
 
 
+def render_feed_status() -> None:
+    st.sidebar.caption("Receiver Status")
+    status = read_feed_status()
+    state = str(status.get("state") or "not_started")
+    updated_at = status.get("updated_at")
+    st.sidebar.write(f"State: **{state}**")
+    if updated_at:
+        st.sidebar.write(f"Updated: `{updated_at}`")
+    if status.get("tick_batches") is not None:
+        st.sidebar.write(f"Tick batches: **{status['tick_batches']}**")
+    if status.get("reason"):
+        st.sidebar.error(str(status["reason"]))
+
+
+def read_feed_status() -> dict:
+    if not FEED_STATUS_PATH.exists():
+        return {}
+
+    try:
+        return json.loads(FEED_STATUS_PATH.read_text())
+    except (OSError, TypeError, json.JSONDecodeError):
+        return {}
+
+
 def render_chain(chain: pd.DataFrame, current_path: Path, history_path: Path) -> None:
     st.title("NIFTY OI Scalper")
     st.caption("5 ITM strikes, ATM, and 5 OTM strikes from the live Kite feed.")
@@ -460,8 +495,11 @@ def render_chain(chain: pd.DataFrame, current_path: Path, history_path: Path) ->
         st.info(
             "No option-chain snapshot found yet. Enter today's Kite access "
             "token in the sidebar and click Connect; "
-            f"it will write `{current_path.relative_to(ROOT_DIR)}`."
+            f"it will write `{display_path(current_path)}`."
         )
+        if FEED_RUNNER_LOG_PATH.exists():
+            with st.expander("Receiver log"):
+                st.code(load_log_tail(str(FEED_RUNNER_LOG_PATH), max_lines=40), language="text")
         return
 
     latest_time = chain["timestamp"].iloc[0]

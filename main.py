@@ -31,6 +31,7 @@ logger = logging.getLogger(__name__)
 # ── local imports ──────────────────────────────────────────────────────
 from config.settings import settings
 from config.runtime import runtime_exchange, runtime_index_name, runtime_underlying
+from core.feed_status import write_feed_status
 from core.oi_store import OIStore
 from core.oi_velocity_tracker import OIVelocityTracker
 from core.feed_handler import FeedHandler
@@ -46,6 +47,7 @@ def validate_kite_session(kite: KiteConnect) -> None:
     try:
         profile = kite.profile()
     except Exception as exc:
+        write_feed_status("error", reason=f"Kite session validation failed: {exc}")
         raise SystemExit(
             "Kite session validation failed. Enter a fresh access token in "
             "the Streamlit UI and click Connect again.\n"
@@ -70,6 +72,7 @@ def main():
         raise SystemExit("No Kite access token was provided by the Streamlit UI.")
 
     index_name = runtime_index_name()
+    write_feed_status("starting", index_name=index_name)
     logger.info(
         "Starting %s OI Scalper  [mode=%s, underlying=%s, exchange=%s]",
         index_name,
@@ -83,6 +86,7 @@ def main():
     kite.set_access_token(access_token)
     logger.info("Kite session initialised.")
     validate_kite_session(kite)
+    write_feed_status("session_validated", index_name=index_name)
 
     # --- Load instruments ---
     chain = load_option_chain(kite, force_refresh=False)
@@ -149,6 +153,7 @@ def main():
     finally:
         executor.stop_monitor()
         feed.close()
+        write_feed_status("stopped")
         logger.info("Bye.")
 
 
